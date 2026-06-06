@@ -66,7 +66,7 @@ Key steps included:
 
 📓 Notebook:
 
-[Jupyter Notebook](Jupyter Notebook/Feature_Engineering.ipynb)
+[Jupyter Notebook](./Jupyter%20Notebook/Feature_Engineering.ipynb)
 
 ---
 
