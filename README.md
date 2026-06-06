@@ -2,19 +2,26 @@
 
 ## Overview
 
-This project explores customer purchasing behavior using SQL, Python, MySQL, and Power BI.
+This project explores customer purchasing behavior using Python, MySQL, and Power BI to uncover meaningful business insights from retail transaction data.
 
-The objective was to identify patterns in:
+The analysis focuses on:
 
-- Customer loyalty
+- Customer segmentation and loyalty
+- Revenue generation patterns
+- Product performance
 - Subscription behavior
-- Product preferences
-- Revenue generation
 - Discount effectiveness
+- Customer preferences across demographics
 
 The project follows a complete analytics workflow:
 
-Raw Data → Data Cleaning → SQL Analysis → Power BI Dashboard → Business Insights
+```text
+Raw Dataset
+→ Data Cleaning & Feature Engineering (Python)
+→ SQL Analysis (MySQL)
+→ Interactive Dashboard (Power BI)
+→ Business Insights & Recommendations
+```
 
 ---
 
@@ -23,13 +30,14 @@ Raw Data → Data Cleaning → SQL Analysis → Power BI Dashboard → Business 
 The dataset contains customer shopping behavior information including:
 
 - Customer demographics
-- Product categories
+- Product categories and purchased items
 - Purchase amount
 - Subscription status
 - Discounts and promotions
 - Purchase frequency
 - Previous purchases
 - Product ratings
+- Seasonal information
 
 ---
 
@@ -42,78 +50,77 @@ The dataset contains customer shopping behavior information including:
 
 ---
 
-## Data Cleaning
+## Data Cleaning & Feature Engineering
 
-Initial preprocessing was performed in Jupyter Notebook before loading the dataset into MySQL.
+Initial preprocessing was performed using Python and Pandas before loading the data into MySQL.
 
-Cleaning tasks included:
+Key steps included:
 
-- Checking missing values
-- Validating discount and promotion fields
-- Creating age-group buckets
+- Inspecting and validating data quality
+- Checking for missing values
 - Standardizing column names
-- Verifying data consistency
+- Creating age-group buckets
+- Verifying discount and promotion fields
+- Creating derived analytical features
+- Exporting the cleaned dataset for SQL analysis
 
-Notebook:
+📓 Notebook:
 
-[Data Cleaning Notebook](NOTEBOOK_LINK_HERE)
-
----
-
-## Dashboard
-
-Interested in exploring the interactive dashboard?
-
-📊 Dashboard File:
-
-[dashboard1.pbix](dashboards/dashboard1.pbix)
-
-Open using Microsoft Power BI Desktop.
+[Jupyter Notebook](Jupyter Notebook/Feature_Engineering.ipynb)
 
 ---
 
-# Business Questions
+## SQL Analysis
 
-### 1. Which product categories generate the most revenue?
+The complete SQL workflow, including customer segmentation, product ranking, subscription analysis, revenue analysis, and discount analysis, can be found here:
 
-Revenue was aggregated by category to identify the most valuable product groups.
-
-Example SQL:
-
-```sql
-SELECT
-    category,
-    SUM(purchase_amt) AS revenue
-FROM customer_behavior
-GROUP BY category;
-```
-
-### Result
-
-- Clothing generated the highest revenue.
-- Accessories generated the lowest revenue.
+📄 [View SQL Queries](Queries/sql_queries.sql)
 
 ---
 
-### 2. How does customer preference vary across age groups?
+# Business Questions & Findings
 
-Customer distribution was compared across categories for different age groups.
+## 1. Which Product Categories Generate the Most Revenue?
 
-### Result
+Revenue was aggregated across all product categories to identify the highest-performing business segments.
+
+### Finding
+
+- Clothing generated the highest overall revenue.
+- Accessories generated the lowest overall revenue.
+
+### Business Value
+
+Understanding category-level revenue helps prioritize inventory planning and marketing investments.
+
+---
+
+## 2. How Do Customer Preferences Vary Across Age Groups?
+
+Customer distributions were analyzed across categories for different age groups.
+
+### Finding
 
 - Clothing remained the most popular category across all age groups.
-- Older customers showed relatively higher interest in Outerwear and Footwear compared to younger customers.
+- Older customer groups showed relatively stronger interest in Footwear and Outerwear compared to younger customers.
+
+### Business Value
+
+Supports demographic-specific marketing campaigns and inventory planning.
 
 ---
 
-### 3. How can customers be segmented based on loyalty and purchase frequency?
+## 3. How Can Customers Be Segmented Based on Loyalty and Purchase Frequency?
 
-Customers were segmented using:
+Customers were classified into:
 
-- Previous purchase history
-- Purchase frequency
+- New Customers
+- Regular Customers
+- Loyal Customers
 
-Segments included:
+using purchase history and purchase frequency.
+
+These groups were further transformed into business-friendly segments such as:
 
 - VIP Active
 - VIP Occasional
@@ -122,90 +129,96 @@ Segments included:
 - Regular Occasional
 - New Active
 
-### Result
+### Finding
 
 The customer base was heavily concentrated among loyal customer groups.
 
+### Business Value
+
+Provides a framework for personalized marketing and customer retention strategies.
+
 ---
 
-### 4. Which customer segments generate the most revenue?
+## 4. Which Customer Segments Generate the Most Revenue?
 
-Revenue was analyzed for each customer segment.
+Revenue contribution was analyzed for each customer segment.
 
-### Result
+### Finding
 
 - Regular Active customers generated the highest revenue.
-- VIP Active customers represented another high-value customer segment.
-- New customer segments contributed relatively little revenue.
+- VIP Active customers represented another highly valuable customer segment.
+- New customer segments contributed significantly less revenue.
 
 ### Business Value
 
-Retention strategies should focus on high-performing active customer groups.
+High-value customer groups can be targeted with retention and loyalty programs.
 
 ---
 
-### 5. Which products are the top sellers within their category?
+## 5. Which Products Are the Top Sellers Within Their Category?
 
-Products were ranked within each category based on purchase counts.
+Products were ranked against other products belonging to the same category based on purchase counts.
 
-### Method
+### Finding
 
-Products were compared only against other products belonging to the same category.
-
-### Result
-
-The analysis identified the three highest-performing products in each category.
+The analysis identified the three best-performing products in each category.
 
 ### Business Value
 
-Useful for inventory prioritization and product promotion planning.
+Useful for inventory prioritization, merchandising decisions, and promotional planning.
 
 ---
 
-### 6. Which products are most dependent on discounts?
+## 6. Which Products Are Most Dependent on Discounts?
 
-Products were evaluated based on the percentage of purchases made under discount periods.
+The percentage of purchases occurring during discount periods was calculated for each product.
 
-Example SQL:
+### Finding
 
-```sql
-SELECT
-    item_purchased,
-    COUNT(*) AS total_purchases,
-    SUM(CASE WHEN discount_applied='Yes' THEN 1 ELSE 0 END)
-FROM customer_behavior
-GROUP BY item_purchased;
-```
+Products such as:
 
-### Result
+- Shorts
+- Jeans
+- Blouses
+- Sweaters
 
-Products such as Shorts, Jeans, Blouses, and Sweaters showed high discount dependency.
+showed particularly high discount dependency.
 
 ### Business Value
 
-These products are strong candidates for promotional campaigns.
+These products are strong candidates for promotional campaigns and seasonal discount strategies.
 
 ---
 
-### 7. How likely are customers to subscribe?
+## 7. How Likely Are Customers to Subscribe?
 
-Subscription rate was calculated across the customer base.
+Subscription behavior was analyzed across the customer base.
 
-### Result
+### Finding
 
 Approximately 40% of customers were subscribers.
 
 ### Business Value
 
-The subscription program has meaningful adoption and can be expanded through targeted campaigns.
+The subscription program demonstrates meaningful adoption and provides opportunities for expansion.
 
 ---
 
-# Dashboard Pages
+# Power BI Dashboard
 
-## Executive Overview
+The project dashboard was designed to provide business stakeholders with a high-level overview of customer behavior and business performance.
 
-Provides a high-level summary of business performance.
+📊 Dashboard File:
+
+[dashboard1.pbix](Power Bi Dashboard/dashboard1.pbix)
+
+---
+
+## Dashboard Pages
+
+### Executive Overview
+
+Provides a high-level snapshot of business performance.
 
 Includes:
 
@@ -214,11 +227,11 @@ Includes:
 - Subscription Rate
 - Average Purchase Amount
 - Revenue by Category
-- Customer Preference by Age Group
+- Category Preferences Across Age Groups
 
 ---
 
-## Customer Segmentation
+### Customer Segmentation
 
 Analyzes customer groups based on loyalty and purchasing behavior.
 
@@ -230,9 +243,9 @@ Includes:
 
 ---
 
-## Product & Discount Analysis
+### Product & Discount Analysis
 
-Focuses on product performance and discount effectiveness.
+Focuses on product performance and promotional effectiveness.
 
 Includes:
 
@@ -243,56 +256,88 @@ Includes:
 
 # Key Insights
 
-### Customer loyalty is strongly linked to revenue
+### Customer Loyalty Drives Revenue
 
-Most revenue originates from active and loyal customer segments.
+The majority of revenue originates from active and loyal customer segments, highlighting the importance of customer retention.
 
-### Clothing dominates overall revenue
+---
 
-Clothing generated the highest revenue among all categories.
+### Clothing Dominates Overall Revenue
 
-### Customer behavior differs by age group
+Among all categories, Clothing generated the highest revenue contribution.
 
-While Clothing remains dominant, category preferences vary across demographics.
+---
 
-### Certain products rely heavily on discounts
+### Customer Preferences Differ Across Demographics
 
-Products such as Shorts, Jeans, and Blouses exhibited high discount dependency.
+Although Clothing remains the dominant category, customer preferences vary across age groups, particularly for Footwear and Outerwear.
 
-### Customer segmentation reveals high-value groups
+---
 
-Active customer segments significantly outperform dormant and new customer groups.
+### Certain Products Rely Heavily on Discounts
+
+Products such as Shorts, Jeans, and Blouses exhibited strong discount dependency, suggesting that targeted promotions can significantly influence purchasing behavior.
+
+---
+
+### Customer Segmentation Reveals High-Value Groups
+
+Active customer segments consistently outperformed dormant and new customer groups in revenue generation.
 
 ---
 
 # Recommendations
 
-### Focus on retention
+### Invest in Customer Retention
 
-Invest in loyalty programs targeting active and high-spending customer segments.
+Develop loyalty programs aimed at retaining active and high-spending customer segments.
 
-### Expand successful subscription initiatives
+### Expand Subscription Programs
 
-Target customer groups with high engagement and purchase frequency.
+Focus subscription campaigns on highly engaged customer groups to increase adoption.
 
-### Use targeted discount campaigns
+### Use Targeted Promotions
 
-Apply discounts strategically to products that demonstrate strong discount responsiveness.
+Apply discounts strategically to products that have demonstrated strong promotional responsiveness.
 
-### Optimize inventory planning
+### Optimize Inventory Planning
 
-Prioritize top-performing products identified within each category.
+Prioritize inventory allocation for top-performing products identified within each category.
 
-### Personalize marketing efforts
+### Leverage Customer Segmentation
 
-Leverage customer segmentation to create tailored promotions and customer experiences.
+Use segment-specific marketing campaigns to improve engagement and conversion rates.
 
 ---
 
 # Future Improvements
 
-- Use transactional order-level data instead of customer snapshots
-- Perform customer lifetime value (CLV) analysis
-- Build churn prediction models
-- Incorporate time-series forecasting
-- Deploy an interactive web dashboard
+Potential next steps include:
+
+- Customer Lifetime Value (CLV) analysis
+- Churn prediction modeling
+- Time-series revenue forecasting
+- Transaction-level behavioral analysis
+- Deployment of an interactive web dashboard
+
+---
+
+## Repository Structure
+
+```text
+Retail-Customer-Behavior-Analysis/
+│
+├── Jupyter Notebook/
+│   └── Feature_Engineering.ipynb
+│
+├── Queries/
+│   └── sql_queries.sql
+│
+├── Power Bi Dashboard/
+│   └── dashboard1.pbix
+│
+├── Dataset/
+│   └── customer_behavior.csv
+│
+└── README.md
+```
